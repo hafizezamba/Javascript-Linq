@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        "use strict";
+
+        $(document).ready(function(){                                   //sayfa hazır olduğunda
+           var data = { userList: [                                     //userList adında bir dizi oluşturuldu.
+               {
+                   userInfo:{ id:1, nameSurname:"Ali",
+                              age:45,gender:"Erkek"},
+                    accountInfo:{ debit:250,credit:300}
+               },
+               {
+                   userInfo : { id:2,nameSurname:"Veli",
+                                age:25, gender:"Erkek"},
+                   accountInfo:{ debit:200, credit:100}
+               },
+               {
+                   userInfo : { id:3, nameSurname:"Ayşe",
+                                age:33, gender:"Kadın"},
+                   accountInfo:{ debit:550, credit:0}
+               },
+               {
+                   userInfo : { id:4, nameSurname:"Mehmet",
+                                age:35, gender:"Erkek"},
+                   accountInfo : { debit:0 , credit:400}
+               },
+               {
+                   userInfo : { id:5, nameSurname:"Ayse",
+                                age:45, gender:"Kadın"},
+                   accountInfo : { debit:800, credit:400}
+               },
+               {
+                   userInfo : { id:6, nameSurname:"Fatma",
+                                age:20, gender:"Kadın"},
+                   accountInfo:{ debit:150, credit:900}
+               }
+           ]};
+
+            var queryResult = $.Enumerable.From(data.userList)
+                    .Where("x => x.userInfo.id < 5")                                                                         //id si 5'den küçük olan veriler listelendi
+                    .OrderBy("x => x.userInfo.nameSurname")                                                                  //isimler artan sıralamaya göre listelendi.
+                    .Select("x => x.userInfo.nameSurname + ' : ' + (x.accountInfo.credit - x.accountInfo.debit)")           //çıktı olarak isim ve alacaktan borç çıkarılarak elde edilen sonuç verildi.
+                    .ToArray();                                                                                             //sorgu diziye dönüştürüldü.
+
+            for (var i = 0; i < queryResult.length; i++) {                                                                  //for döngüsü ile qeryResult dizisinin elemanları yazdırıldı.
+                $("body").append(queryResult[i]);
+                $("body").append("<br>");
+            }
+
+            var query = $.Enumerable.From(data.userList)
+                    .Skip(2)                                        //2'den sonraki
+                    .Take(2)                                        //2 kayıt
+                    .Select("x => x.userInfo.nameSurname")          //isim seçildi.
+                    .ToArray();                                     //Diziye dönüştürüldü.
+
+            for(var i =0; i< query.length; i++){                    //for döngüsü ile query dizisinin elemanları yazdırıldı.
+                $("body").append(query[i]);
+                $("body").append("<br>");
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
