@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        "use strict";
+        $(document).ready(function(){
+
+            var query = $.Enumerable.Range(3,5)
+                    .ToArray();
+
+            for(var i=0; i< query.length; i++){
+                $("body").append(query[i]);
+                $("body").append("<br>");
+            }
+            //"From" fonksiyonuna geçtiğimiz dizi üzerinde Linq ifadelerini kullanabiliriz.
+            // "Range" fonksiyonu ise, ilk parametre olarak belirtilen değerden, ikinci parametre olarak belirtilen değer kadar değer dizisi oluşturur.
+            // "Range" fonksiyonu genelde ardışık sayılar dizisine ihtiyacımız olduğunda başvurduğumuz bir fonksiyondur ve genellikle diğer sorgulara yardımcı olarak kullanılır.
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        "use strict";
+
+        $(document).ready(function(){
+
+            var data = { userList : [
+                {
+                    userInfo:{id:1,name:"Ali",age:45,gender:"Erkek"},
+                    accountInfo:{debit:250, credit:100}
+                },
+                {
+                    userInfo:{id:2,name:"Veli",age:25,gender:"Erkek"},
+                    accountInfo:{debit:789,credit:546}
+                },
+                {
+                    userInfo:{id:3,name:"Ahmet",age:45, gender:"Erkek"},
+                    accountInfo:{debit:500,credit:200}
+                },
+                {
+                    userInfo:{id:4,name:"Mehmet",age:15,gender:"Erkek"},
+                    accountInfo:{debit:250, credit:100}
+                },
+                {
+                    userInfo:{id:5,name:"Ayşe",age:5,gender:"Kadın"},
+                    accountInfo:{debit:789,credit:546}
+                },
+                {
+                    userInfo:{id:6,name:"Fatma",age:85, gender:"Kadın"},
+                    accountInfo:{debit:500,credit:150}
+                }
+            ]};
+
+            $.Enumerable.From(data.userList)
+                    .Where("x => x.userInfo.gender == 'Kadın'")
+                    .ForEach(function (x) {
+                        $("body").append(x.accountInfo.debit * 2);
+                        $("body").append("<br>");
+                    });
+        });
+
+        //FOREACH
+        //Kriterlere uygun dizi elemanları üzerinde dönerek fonksiyon içinde verilen işlemleri gerçekleştirir.
+        //Bu fonksiyon dışarı değer dönmek yerine elemanlar üzerinde direkt işlem yapabilir.
+        //Bu programda cinsiyeti kadın olan elemanların borçları 2 ile çarpılıp ekrana yazdırıldı.
+    </script>
+</head>
+<body>
+
+</body>
+</html>

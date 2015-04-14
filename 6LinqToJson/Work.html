@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        $(document).ready(function(){
+            var data= {userList:[
+                {
+                    userInfo:{id:1, name:"Ayşe", age:95,gender:"Kadın"},
+                    accountInfo:{debit:45,credit:800}
+                },
+                {
+                    userInfo:{id:2, name:"Ali",age:45,gender:"Erkek"},
+                    accountInfo:{debit:456, credit:30}
+                },
+                {
+                    userInfo:{id:3, name:"Veli",age:45,gender:"Erkek"},
+                    accountInfo:{debit:1, credit:10}
+                }
+            ]};
+
+            var query= $.Enumerable.From(data.userList)
+                    .Select("x => {name: x.userInfo.name, debit:x.accountInfo.debit}")
+                    .ToJSON();                                                                              // "ToArray" fonksiyonuna alternatif olarak kullanılabilir.
+                                                                                                            // İşlem sonucunu bir dizi olarak dönmektense, JSON veri formatında geri döner.
+            $("body").append(query);
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

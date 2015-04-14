@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script type="text/javascript" language="JavaScript">
+        $(document).ready(function(){
+           var data= { userList:[                                                               //data isminde bir nesne tanımlandı,UserList adında dizi eklendi.dizi nesnelerden oluşturuldu.
+               {
+                   userInfo:{id:1,name:"Ali", age:18, gender:"Erkek"},
+                   accountInfo:{debit:456, credit:80}
+               },
+               {
+                   userInfo:{id:2,name:"Ayşe",age:20,gender:"Kadın"},
+                   accountInfo:{debit:100,credit:546}
+               },
+               {
+                   userInfo:{id:3, name:"Fatma", age:20, gender:"Kadın"},
+                   accountInfo:{debit:879,credit:777}
+               }
+           ]};
+
+            var obj1 = $.Enumerable.From(data.userList)
+                    .Where("x => x.userInfo.age == 20")                                         //Where ile sorgumuzu yazıyoruz.Lambda ifadesi ile yaşı 20 olanlar listelendi.
+                    .First();                                                                   //"First" fonksiyonu, dönen bir dizinin ilk elemanını seçer. Eğer bir eleman dönmüyorsa da hata verir.
+
+            $("body").append(obj1.userInfo.name);                                               //obj1 üzerinden name nesnesine erilişiliyor ve name değeri yazdırılıyor.
+            $("body").append("<br>");
+
+            $("body").append("----------------s");
+            $("body").append("<br>");
+
+            var obj2= $.Enumerable.From(data.userList)                                          //obj2 adında yeni bir değişken tanımlandı.
+                    .Where("x => x.userInfo.gender == 'XYZ' ")                                  //Where ile sorgu yapıldı.Gender özelliği XYZ olan kayıtlar istendi
+                    .FirstOrDefault({userInfo: {name: "Test"}});                                //FirstorDefault fonksiyonu bir eleman dönmüyorsa bu fonksiyona geçilen değer varsayılan olarak geri döndürülür name test olarak geri dönüldü.
+
+            $("body").append(obj2.userInfo.name);                                               //obj2 nesnesinin default değeri ekrana yazdırıldı.
+            $("body").append("<br>");
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
