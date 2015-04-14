@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        "use strict";
+        $(document).ready(function (){
+
+            var data ={ userList:[
+                {
+                    userInfo:{id:1,name:"Ali",age:45,gender:"Erkek"},
+                    accountInfo:{debit:140,credit:300}
+                },
+                {
+                    userInfo:{id:2,name:"Veli",age:25,gender:"Erkek"},
+                    accountInfo:{debit:200,credit:100}
+                },
+                {
+                    userInfo:{id:3,name:"Ahmet",age:35,gender:"Erkek"},
+                    accountInfo:{debit:550,credit:0}
+                },
+                {
+                    userInfo:{id:4,name:"Mehmet",age:20,gender:"Erkek"},
+                    accountInfo:{debit:0,credit:400}
+                },
+                {
+                    userInfo:{id:5,name:"Ayşe",age:40,gender:"Kadın"},
+                    accountInfo:{debit:800,credit:400}
+                },
+                {
+                    userInfo:{id:6,name:"Fatma",age:30,gender:"Kadın"},
+                    accountInfo:{debit:150,credit:900}
+                }
+            ]};
+
+            var queryResult = $.Enumerable.From(data.userList)
+                    .GroupBy("x=> x.userInfo.gender",                                                   //groupBy fonksiyonu ile cinsiyete göre gruplama yapıldı.
+                    null,
+                    function (key, g) {                                                                 //gruplama sonucunda çıkan her satır buradaki parametreye gönderildi.
+                        return {
+                            gender: key,                                                                //key değeri gruplama elemanını, g değeri de gruplama sonucunda oluşan nesneyi içeriyor
+                            count: g.Count("x=> x.userInfo"),                                           //oluşan nesnenin eleman sayısı alındı
+                            totalDebit: g.Sum("x=> x.accountInfo.debit"),                               //oluşan nesnenin debit özelliğinin toplamı alındı.
+                            totalCredit: g.Sum("x=> x.accountInfo.credit"),                             //oluşan nesnenin credit özelliğinin toplamı alındı.
+                            averageDebit: g.Average("x=> x.accountInfo.debit"),                         //oluşan nesnenin debit özelliğinin aritmetik ortalamasını alır.
+                            maxDebit: g.Max("x=> x.accountInfo.debit"),                                 //oluşan nesnenin debit özelliğinin maximum (en büyük) değerini alır.
+                            minDebit: g.Min("x=> x.accountInfo.debit")                                  //oluşan nesnenin debit özelliğinin minimum (en küçük) değerini alır.
+                        };
+                    }).ToArray();                                                                       //sonuç diziye çevirildi.
+
+            for (var i = 0; i < queryResult.length; i++) {                                              //for döngüsü tanımlandı.i 0'a eşit; i queryResult sayısından küçük olana kadar i bir arttırıldı.
+
+                $("body").append(queryResult[i].gender);                                                //i. indexdeki gender özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].count);                                                 ////i. indexdeki alınan count özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].totalDebit);                                            //i. indexdeki totalDebit özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].totalCredit);                                           //i. indexdeki totalCredit özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].averageDebit);                                          //i. indexdeki averageDebit özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].maxDebit);                                              //i. indexdeki maxDebit özelliği yazdırıldı.
+                $("body").append(", ");
+                $("body").append(queryResult[i].minDebit);                                              //i. indexdeki minDebit özelliği yazdırıldı.
+                $("body").append("<br>");
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

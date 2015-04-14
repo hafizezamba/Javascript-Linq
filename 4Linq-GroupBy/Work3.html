@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1254" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="jquery.linq-2.2.0.2.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        "use strict";
+        //Birden fazla alana göre gruplamak
+        $(document).ready(function () {
+
+            var data = { userList: [
+                {
+                    userInfo: { id: 1, nameSurname: "Ali",
+                        age: 45, gender:"Erkek" },
+                    accountInfo: { debit: 250, credit: 300}
+                },
+                {
+                    userInfo: { id: 2, nameSurname: "Veli",
+                        age: 45, gender:"Erkek" },
+                    accountInfo: { debit: 200, credit: 100}
+                },
+                {
+                    userInfo: { id: 3, nameSurname: "Ahmet",
+                        age: 35, gender:"Erkek" },
+                    accountInfo: { debit: 550, credit: 0 }
+                },
+                {
+                    userInfo: { id: 4, nameSurname: "Mehmet",
+                        age: 35, gender:"Erkek" },
+                    accountInfo: { debit: 0, credit: 400 }
+                },
+                {
+                    userInfo: { id: 5, nameSurname: "Ayse",
+                        age: 35, gender:"Kadin" },
+                    accountInfo: { debit: 800, credit: 400 }
+                },
+                {
+                    userInfo: { id: 6, nameSurname: "Fatma",
+                        age: 45, gender:"Kadin" },
+                    accountInfo: { debit: 150, credit: 900 }
+                }
+            ]};
+            var queryResult = $.Enumerable.From(data.userList)
+                    .GroupBy("x=> { genderKey: x.userInfo.gender, ageKey: x.userInfo.age }",
+                    null,
+                    function (key, g) {
+                        return {
+                            gender: key.genderKey,
+                            age: key.ageKey,
+                            count: g.Count("x=> x.userInfo"),
+                            totalDebit: g.Sum("x=> x.accountInfo.debit"),
+                            totalCredit: g.Sum("x=> x.accountInfo.credit"),
+                            averageDebit: g.Average("x=> x.accountInfo.debit"),
+                            maxDebit: g.Max("x=> x.accountInfo.debit"),
+                            minDebit: g.Min("x=> x.accountInfo.debit")
+                        };
+                    },
+                    "x=> x.genderKey + '-' + x.ageKey").ToArray();
+
+            for (var i = 0; i < queryResult.length; i++) {
+
+                $("body").append(queryResult[i].gender);
+                $("body").append(", ");
+                $("body").append(queryResult[i].age);
+                $("body").append(", ");
+                $("body").append(queryResult[i].count);
+                $("body").append(", ");
+                $("body").append(queryResult[i].totalDebit);
+                $("body").append(", ");
+                $("body").append(queryResult[i].totalCredit);
+                $("body").append(", ");
+                $("body").append(queryResult[i].averageDebit);
+                $("body").append(", ");
+                $("body").append(queryResult[i].maxDebit);
+                $("body").append(", ");
+                $("body").append(queryResult[i].minDebit);
+                $("body").append("<br>");
+            }
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
